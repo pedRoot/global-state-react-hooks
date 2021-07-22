@@ -1,39 +1,14 @@
-import { createContext, useState } from 'react';
+import { createContext, useContext, useReducer } from 'react';
+
+import UserReducer from '../reducers/UserReducer.js';
+import globalStore from '../stores/globalStore.js';
 
 const UserContext = createContext();
 
-const initialState = {
-  id: 1,
-  name: 'pedroot',
-  favoriteMovies: [1, 4, 7]
-};
-
 const UserProvider = ({ children }) => {
+  const [user, dispatchUser] = useReducer(UserReducer, globalStore.user)
 
-  const [user, setUser] = useState(initialState);
-
-  const login = () => {
-    setUser(initialState);
-  }
-
-  const logout = () => {
-    setUser(null);
-  }
-
-  const toggleFavoriteMovieToUser = (movieId) => {
-
-    const isFavorite = user.favoriteMovies.includes(movieId);
-    const favoriteMovies = isFavorite
-      ? user.favoriteMovies.filter(favMovId => favMovId !== movieId)
-      : [...user.favoriteMovies, movieId]
-
-    setUser({
-      ...user,
-      favoriteMovies
-    })
-  }
-
-  const data = { user, login, logout, toggleFavoriteMovieToUser };
+  const data = { user, dispatchUser };
 
   return (
     <UserContext.Provider value={data}>
@@ -42,6 +17,8 @@ const UserProvider = ({ children }) => {
   )
 }
 
-export { UserProvider };
-export default UserContext;
+const GetContextUser = () => {
+  return useContext(UserContext);
+};
 
+export { UserProvider, GetContextUser };

@@ -1,8 +1,8 @@
-import { useContext } from "react";
-import UserContext from "../contexts/UserContext";
+import { GetContextUser } from "../contexts/UserContext";
+import userType from "../types/userType";
 
 const Navbar = () => {
-  const { user, login, logout } = useContext(UserContext);
+  const { user, dispatchUser } = GetContextUser();
 
   console.log('navbar');
 
@@ -14,11 +14,21 @@ const Navbar = () => {
           PHSystem
         </span>
 
-        {user
-          ? <button className="btn btn-primary" onClick={logout}>
+        {user.isLogin
+          ? <button
+            className="btn btn-primary"
+            onClick={() => dispatchUser({
+              type: userType.USER_SIGNOUT,
+              payload: user
+            })}>
             <i className="icon-signout" title="Sign Out"></i> Sing Out
           </button>
-          : <button className="btn btn-primary" onClick={login}>
+          : <button
+            className="btn btn-primary"
+            onClick={() => dispatchUser({
+              type: userType.USER_SIGNIN,
+              payload: user
+            })}>
             <i className="icon-signin" title="Sign In"></i> Sign In
           </button>
         }

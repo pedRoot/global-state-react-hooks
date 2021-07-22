@@ -1,11 +1,20 @@
-import { createContext } from "react";
-import initialMovies from "../data/initialMovie";
+import { 
+  createContext, 
+  useContext, 
+  useReducer 
+} from "react";
+
+import MoviesReducer from "../reducers/MoviesReducer";
+import globalStore from "../stores/globalStore";
 
 const MoviesContext = createContext();
 
 const MoviesProvider = ({ children }) => {
+  const [movies, dispatch] = useReducer(MoviesReducer, globalStore.movies);
+
   const data = {
-    movies: initialMovies
+    movies,
+    dispatch
   };
 
   return (
@@ -16,5 +25,9 @@ const MoviesProvider = ({ children }) => {
 
 };
 
-export { MoviesProvider };
+const GetConextMovies = () => {
+  return useContext(MoviesContext);
+};
+
+export { MoviesProvider, GetConextMovies };
 export default MoviesContext;

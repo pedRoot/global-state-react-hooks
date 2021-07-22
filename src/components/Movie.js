@@ -1,8 +1,8 @@
-import { useContext } from "react";
-import UserContext from "../contexts/UserContext";
+import { GetContextUser } from "../contexts/UserContext";
+import userType from "../types/userType";
 
 const Movie = ({ movie }) => {
-  const { user, toggleFavoriteMovieToUser } = useContext(UserContext);
+  const { user, dispatchUser } = GetContextUser();
 
   const isFavorite = user?.favoriteMovies.includes(movie.id);
 
@@ -20,16 +20,17 @@ const Movie = ({ movie }) => {
         <h4>{movie.title}</h4>
 
         {
-          user
-            ? (
-              <button
-                onClick={() => toggleFavoriteMovieToUser(movie.id)}
-                className={`btn ${isFavorite ? 'btn-success' : 'btn-outline-primary'}`}
-              >
-                Favorities
-              </button>
-            )
-            : ''
+          (
+            <button
+              onClick={() => dispatchUser({
+                type: userType.USER_CHECK_FAVORITE_MOVIE,
+                payload: movie.id
+              })}
+              className={`btn ${isFavorite ? 'btn-success' : 'btn-outline-primary'}`}
+            >
+              Favorities
+            </button>
+          )
         }
       </div>
     </div>
