@@ -6,6 +6,20 @@ const Navbar = () => {
 
   console.log('navbar');
 
+  const handleSignInUser = () => {
+    dispatchUser({
+      type: userType.USER_SIGNIN,
+      payload: user
+    })
+  };
+
+  const handleSignOutUser = () => {
+    dispatchUser({
+      type: userType.USER_SIGNOUT,
+      payload: user
+    })
+  };
+
   return (
     <nav className="navbar navbar-dark bg-dark mb-4">
       <div className="container">
@@ -17,18 +31,12 @@ const Navbar = () => {
         {user.isLogin
           ? <button
             className="btn btn-primary"
-            onClick={() => dispatchUser({
-              type: userType.USER_SIGNOUT,
-              payload: user
-            })}>
+            onClick={() => handleSignOutUser()}>
             <i className="icon-signout" title="Sign Out"></i> Sing Out
           </button>
           : <button
             className="btn btn-primary"
-            onClick={() => dispatchUser({
-              type: userType.USER_SIGNIN,
-              payload: user
-            })}>
+            onClick={() => handleSignInUser()}>
             <i className="icon-signin" title="Sign In"></i> Sign In
           </button>
         }

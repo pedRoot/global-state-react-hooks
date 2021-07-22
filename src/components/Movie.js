@@ -8,6 +8,13 @@ const Movie = ({ movie }) => {
 
   console.log('movie');
 
+  const handleToogleFavorites = () => {
+    dispatchUser({
+      type: userType.USER_CHECK_FAVORITE_MOVIE,
+      payload: movie.id
+    })
+  };
+
   return (
     <div className="card">
       <img
@@ -22,10 +29,7 @@ const Movie = ({ movie }) => {
         {
           (
             <button
-              onClick={() => dispatchUser({
-                type: userType.USER_CHECK_FAVORITE_MOVIE,
-                payload: movie.id
-              })}
+              onClick={() => handleToogleFavorites()}
               className={`btn ${isFavorite ? 'btn-success' : 'btn-outline-primary'}`}
             >
               Favorities
