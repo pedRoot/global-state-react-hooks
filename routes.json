@@ -1,0 +1,3 @@
+{
+  "/users/login/:user": "/users?email=:user"
+}

@@ -1,49 +1,27 @@
-import { GetContextUser } from "../contexts/UserContext";
-import userType from "../types/userType";
+import { useSelector } from "react-redux";
+import { withRouter } from "react-router-dom";
+
+import Menu from "./Menu";
 
 const Navbar = () => {
-  const { user, dispatchUser } = GetContextUser();
+  const user = useSelector(state => state.authentication.response);
 
   console.log('navbar');
 
-  const handleSignInUser = () => {
-    dispatchUser({
-      type: userType.USER_SIGNIN,
-      payload: user
-    })
-  };
-
-  const handleSignOutUser = () => {
-    dispatchUser({
-      type: userType.USER_SIGNOUT,
-      payload: user
-    })
-  };
-
   return (
-    <nav className="navbar navbar-dark bg-dark mb-4">
-      <div className="container">
-
-        <span className="navbar-brand">
-          PHSystem
-        </span>
-
-        {user.isLogin
-          ? <button
-            className="btn btn-primary"
-            onClick={() => handleSignOutUser()}>
-            <i className="icon-signout" title="Sign Out"></i> Sing Out
-          </button>
-          : <button
-            className="btn btn-primary"
-            onClick={() => handleSignInUser()}>
-            <i className="icon-signin" title="Sign In"></i> Sign In
-          </button>
+    <nav className="navbar navbar-expand navbar-dark bg-dark justify-content-between">
+    
+      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span className="navbar-toggler-icon"></span>
+      </button>
+      <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <span className="text-warning">Novopayment</span>
+        {
+          user?.isLogin && <Menu />
         }
-
       </div>
-    </nav >
+    </nav>
   )
 }
 
-export default Navbar
+export default withRouter(Navbar);
